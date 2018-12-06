@@ -45,7 +45,7 @@ func HasDryRunArg(r *http.Request) bool {
 	return urlQueryHasArg(r.URL, queryArgDryRun)
 }
 
-// HasGenerateOnlyArg returns whether a URL's query "generate-only" parameter
+// HasGenerateOnlyArg returns whether a URL's query "generate_only" parameter
 // is set to "true".
 func HasGenerateOnlyArg(r *http.Request) bool {
 	return urlQueryHasArg(r.URL, queryArgGenerateOnly)
@@ -113,7 +113,9 @@ func WriteGenerateStdTxResponse(w http.ResponseWriter, txBldr authtxb.TxBuilder,
 	return
 }
 
-func urlQueryHasArg(url *url.URL, arg string) bool { return url.Query().Get(arg) == "true" }
+func urlQueryHasArg(url *url.URL, arg string) bool {
+	return strings.ToLower(url.Query().Get(arg)) == "true"
+}
 
 //----------------------------------------
 // Building / Sending utilities

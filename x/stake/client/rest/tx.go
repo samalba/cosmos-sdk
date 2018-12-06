@@ -76,7 +76,7 @@ func delegationsRequestHandlerFn(cdc *codec.Codec, kb keys.Keybase, cliCtx conte
 		}
 
 		baseReq := req.BaseReq.Sanitize()
-		if !baseReq.ValidateBasic(w) {
+		if !utils.HasGenerateOnlyArg(r) && !baseReq.ValidateBasic(w) {
 			return
 		}
 
