@@ -24,7 +24,7 @@ func TestSameDenomAsCoin(t *testing.T) {
 		expected bool
 	}{
 		{NewInt64Coin("A", 1), NewInt64Coin("A", 1), true},
-		{NewInt64Coin("A", 1), NewInt64Coin("a", 1), false},
+		{NewInt64Coin("A", 1), NewInt64Coin("a", 1), true},
 		{NewInt64Coin("a", 1), NewInt64Coin("b", 1), false},
 		{NewInt64Coin("steak", 1), NewInt64Coin("steak", 10), true},
 	}
@@ -42,7 +42,7 @@ func TestIsEqualCoin(t *testing.T) {
 		expected bool
 	}{
 		{NewInt64Coin("A", 1), NewInt64Coin("A", 1), true},
-		{NewInt64Coin("A", 1), NewInt64Coin("a", 1), false},
+		{NewInt64Coin("A", 1), NewInt64Coin("a", 1), true},
 		{NewInt64Coin("a", 1), NewInt64Coin("b", 1), false},
 		{NewInt64Coin("steak", 1), NewInt64Coin("steak", 10), false},
 	}
@@ -357,12 +357,12 @@ func TestParse(t *testing.T) {
 		expected Coins // if valid is true, make sure this is returned
 	}{
 		{"", true, nil},
-		{"1foo", true, Coins{{"foo", one}}},
-		{"10bar", true, Coins{{"bar", NewInt(10)}}},
-		{"99bar,1foo", true, Coins{{"bar", NewInt(99)}, {"foo", one}}},
-		{"98 bar , 1 foo  ", true, Coins{{"bar", NewInt(98)}, {"foo", one}}},
-		{"  55\t \t bling\n", true, Coins{{"bling", NewInt(55)}}},
-		{"2foo, 97 bar", true, Coins{{"bar", NewInt(97)}, {"foo", NewInt(2)}}},
+		{"1foo", true, Coins{{"FOO", one}}},
+		{"10bar", true, Coins{{"BAR", NewInt(10)}}},
+		{"99bar,1foo", true, Coins{{"BAR", NewInt(99)}, {"FOO", one}}},
+		{"98 bar , 1 foo  ", true, Coins{{"BAR", NewInt(98)}, {"FOO", one}}},
+		{"  55\t \t bling\n", true, Coins{{"BLING", NewInt(55)}}},
+		{"2foo, 97 bar", true, Coins{{"BAR", NewInt(97)}, {"FOO", NewInt(2)}}},
 		{"5 mycoin,", false, nil},             // no empty coins in a list
 		{"2 3foo, 97 bar", false, nil},        // 3foo is invalid coin name
 		{"11me coin, 12you coin", false, nil}, // no spaces in coin names

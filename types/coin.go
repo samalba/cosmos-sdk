@@ -32,7 +32,7 @@ func NewCoin(denom string, amount Int) Coin {
 	}
 
 	return Coin{
-		Denom:  denom,
+		Denom:  strings.ToUpper(denom),
 		Amount: amount,
 	}
 }
@@ -320,13 +320,14 @@ func (coins Coins) Empty() bool {
 
 // Returns the amount of a denom from coins
 func (coins Coins) AmountOf(denom string) Int {
+	uppercaseDenom := strings.ToUpper(denom)
 	switch len(coins) {
 	case 0:
 		return ZeroInt()
 
 	case 1:
 		coin := coins[0]
-		if coin.Denom == denom {
+		if coin.Denom == uppercaseDenom {
 			return coin.Amount
 		}
 		return ZeroInt()
@@ -335,12 +336,12 @@ func (coins Coins) AmountOf(denom string) Int {
 		midIdx := len(coins) / 2 // 2:1, 3:1, 4:2
 		coin := coins[midIdx]
 
-		if denom < coin.Denom {
-			return coins[:midIdx].AmountOf(denom)
-		} else if denom == coin.Denom {
+		if uppercaseDenom < coin.Denom {
+			return coins[:midIdx].AmountOf(uppercaseDenom)
+		} else if uppercaseDenom == coin.Denom {
 			return coin.Amount
 		} else {
-			return coins[midIdx+1:].AmountOf(denom)
+			return coins[midIdx+1:].AmountOf(uppercaseDenom)
 		}
 	}
 }
@@ -457,7 +458,7 @@ func ParseCoin(coinStr string) (coin Coin, err error) {
 		return Coin{}, fmt.Errorf("failed to parse coin amount: %s", amountStr)
 	}
 
-	return Coin{denomStr, amount}, nil
+	return Coin{strings.ToUpper(denomStr), amount}, nil
 }
 
 // ParseCoins will parse out a list of coins separated by commas.
