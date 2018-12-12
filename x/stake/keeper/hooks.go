@@ -12,9 +12,9 @@ func (k Keeper) PostValidatorCreated(ctx sdk.Context, valAddr sdk.ValAddress) {
 	}
 }
 
-func (k Keeper) PostValidatorModified(ctx sdk.Context, valAddr sdk.ValAddress) {
+func (k Keeper) PreValidatorModified(ctx sdk.Context, valAddr sdk.ValAddress) {
 	if k.hooks != nil {
-		k.hooks.PostValidatorModified(ctx, valAddr)
+		k.hooks.PreValidatorModified(ctx, valAddr)
 	}
 }
 
@@ -42,20 +42,20 @@ func (k Keeper) PostValidatorBeginUnbonding(ctx sdk.Context, consAddr sdk.ConsAd
 	}
 }
 
-func (k Keeper) PostDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
+func (k Keeper) PreDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
 	if k.hooks != nil {
-		k.hooks.PostDelegationCreated(ctx, delAddr, valAddr)
+		k.hooks.PreDelegationCreated(ctx, delAddr, valAddr)
 	}
 }
 
-func (k Keeper) PostDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
+func (k Keeper) PreDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
 	if k.hooks != nil {
-		k.hooks.PostDelegationSharesModified(ctx, delAddr, valAddr)
+		k.hooks.PreDelegationSharesModified(ctx, delAddr, valAddr)
 	}
 }
 
-func (k Keeper) PostDelegationRemoved(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
+func (k Keeper) PreDelegationRemoved(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
 	if k.hooks != nil {
-		k.hooks.PostDelegationRemoved(ctx, delAddr, valAddr)
+		k.hooks.PreDelegationRemoved(ctx, delAddr, valAddr)
 	}
 }

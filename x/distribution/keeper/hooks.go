@@ -27,7 +27,7 @@ func (k Keeper) postValidatorCreated(ctx sdk.Context, valAddr sdk.ValAddress) {
 }
 
 // Withdraw all validator rewards
-func (k Keeper) postValidatorModified(ctx sdk.Context, valAddr sdk.ValAddress) {
+func (k Keeper) PreValidatorModified(ctx sdk.Context, valAddr sdk.ValAddress) {
 	// Move the validator's rewards from the global pool to the validator's pools
 	// (dist info), but without actually withdrawing the rewards. This does not
 	// need to happen during the genesis block.
@@ -44,7 +44,7 @@ func (k Keeper) postValidatorBonded(ctx sdk.Context, valAddr sdk.ValAddress) {
 	if !lastPower.Equal(sdk.ZeroInt()) {
 		panic("expected last power to be 0 for validator entering bonded state")
 	}
-	k.postValidatorModified(ctx, valAddr)
+	k.PreValidatorModified(ctx, valAddr)
 }
 
 // Sanity check, very useful!
@@ -64,7 +64,7 @@ func (k Keeper) postValidatorRemoved(ctx sdk.Context, valAddr sdk.ValAddress) {
 //_________________________________________________________________________________________
 
 // Create a new delegator distribution record
-func (k Keeper) postDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress,
+func (k Keeper) PreDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress,
 	valAddr sdk.ValAddress) {
 
 	ddi := types.DelegationDistInfo{
@@ -76,7 +76,7 @@ func (k Keeper) postDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress,
 }
 
 // Withdrawal all validator rewards
-func (k Keeper) postDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAddress,
+func (k Keeper) PreDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAddress,
 	valAddr sdk.ValAddress) {
 
 	if err := k.WithdrawDelegationReward(ctx, delAddr, valAddr); err != nil {
@@ -85,7 +85,7 @@ func (k Keeper) postDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAdd
 }
 
 // Withdrawal all validator distribution rewards and cleanup the distribution record
-func (k Keeper) postDelegationRemoved(ctx sdk.Context, delAddr sdk.AccAddress,
+func (k Keeper) PreDelegationRemoved(ctx sdk.Context, delAddr sdk.AccAddress,
 	valAddr sdk.ValAddress) {
 
 	k.RemoveDelegationDistInfo(ctx, delAddr, valAddr)
@@ -107,25 +107,25 @@ func (k Keeper) Hooks() Hooks { return Hooks{k} }
 func (h Hooks) PostValidatorCreated(ctx sdk.Context, valAddr sdk.ValAddress) {
 	h.k.postValidatorCreated(ctx, valAddr)
 }
-func (h Hooks) PostValidatorModified(ctx sdk.Context, valAddr sdk.ValAddress) {
-	h.k.postValidatorModified(ctx, valAddr)
+func (h Hooks) PreValidatorModified(ctx sdk.Context, valAddr sdk.ValAddress) {
+	h.k.PreValidatorModified(ctx, valAddr)
 }
 func (h Hooks) PostValidatorRemoved(ctx sdk.Context, _ sdk.ConsAddress, valAddr sdk.ValAddress) {
 	h.k.postValidatorRemoved(ctx, valAddr)
 }
-func (h Hooks) PostDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
-	h.k.postValidatorModified(ctx, valAddr)
-	h.k.postDelegationCreated(ctx, delAddr, valAddr)
+func (h Hooks) PreDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
+	h.k.PreValidatorModified(ctx, valAddr)
+	h.k.PreDelegationCreated(ctx, delAddr, valAddr)
 }
-func (h Hooks) PostDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
-	h.k.postValidatorModified(ctx, valAddr)
-	h.k.postDelegationSharesModified(ctx, delAddr, valAddr)
+func (h Hooks) PreDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
+	h.k.PreValidatorModified(ctx, valAddr)
+	h.k.PreDelegationSharesModified(ctx, delAddr, valAddr)
 }
-func (h Hooks) PostDelegationRemoved(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
-	h.k.postDelegationRemoved(ctx, delAddr, valAddr)
+func (h Hooks) PreDelegationRemoved(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
+	h.k.PreDelegationRemoved(ctx, delAddr, valAddr)
 }
 func (h Hooks) PostValidatorBeginUnbonding(ctx sdk.Context, _ sdk.ConsAddress, valAddr sdk.ValAddress) {
-	h.k.postValidatorModified(ctx, valAddr)
+	h.k.PreValidatorModified(ctx, valAddr)
 }
 func (h Hooks) PostValidatorBonded(ctx sdk.Context, _ sdk.ConsAddress, valAddr sdk.ValAddress) {
 	h.k.postValidatorBonded(ctx, valAddr)

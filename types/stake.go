@@ -116,14 +116,14 @@ type DelegationSet interface {
 // event hooks for staking validator object
 type StakingHooks interface {
 	PostValidatorCreated(ctx Context, valAddr ValAddress)                       // Must be called when a validator is created
-	PostValidatorModified(ctx Context, valAddr ValAddress)                      // Must be called when a validator's state changes
+	PreValidatorModified(ctx Context, valAddr ValAddress)                      // Must be called when a validator's state changes
 	PostValidatorRemoved(ctx Context, consAddr ConsAddress, valAddr ValAddress) // Must be called when a validator is deleted
 
 	PostValidatorBonded(ctx Context, consAddr ConsAddress, valAddr ValAddress)         // Must be called when a validator is bonded
 	PostValidatorBeginUnbonding(ctx Context, consAddr ConsAddress, valAddr ValAddress) // Must be called when a validator begins unbonding
 	PostValidatorPowerDidChange(ctx Context, consAddr ConsAddress, valAddr ValAddress) // Called at EndBlock when a validator's power did change
 
-	PostDelegationCreated(ctx Context, delAddr AccAddress, valAddr ValAddress)        // Must be called when a delegation is created
-	PostDelegationSharesModified(ctx Context, delAddr AccAddress, valAddr ValAddress) // Must be called when a delegation's shares are modified
-	PostDelegationRemoved(ctx Context, delAddr AccAddress, valAddr ValAddress)        // Must be called when a delegation is removed
+	PreDelegationCreated(ctx Context, delAddr AccAddress, valAddr ValAddress)        // Must be called when a delegation is created
+	PreDelegationSharesModified(ctx Context, delAddr AccAddress, valAddr ValAddress) // Must be called when a delegation's shares are modified
+	PreDelegationRemoved(ctx Context, delAddr AccAddress, valAddr ValAddress)        // Must be called when a delegation is removed
 }

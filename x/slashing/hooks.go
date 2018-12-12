@@ -86,7 +86,7 @@ func (h Hooks) PostValidatorCreated(ctx sdk.Context, valAddr sdk.ValAddress) {
 // nolint - unused hooks
 func (h Hooks) PostValidatorPowerDidChange(ctx sdk.Context, consAddr sdk.ConsAddress, valAddr sdk.ValAddress) {
 }
-func (h Hooks) PostValidatorModified(_ sdk.Context, _ sdk.ValAddress)                          {}
-func (h Hooks) PostDelegationCreated(_ sdk.Context, _ sdk.AccAddress, _ sdk.ValAddress)        {}
-func (h Hooks) PostDelegationSharesModified(_ sdk.Context, _ sdk.AccAddress, _ sdk.ValAddress) {}
-func (h Hooks) PostDelegationRemoved(_ sdk.Context, _ sdk.AccAddress, _ sdk.ValAddress)        {}
+func (h Hooks) PreValidatorModified(_ sdk.Context, _ sdk.ValAddress)                          {}
+func (h Hooks) PreDelegationCreated(_ sdk.Context, _ sdk.AccAddress, _ sdk.ValAddress)        {}
+func (h Hooks) PreDelegationSharesModified(_ sdk.Context, _ sdk.AccAddress, _ sdk.ValAddress) {}
+func (h Hooks) PreDelegationRemoved(_ sdk.Context, _ sdk.AccAddress, _ sdk.ValAddress)        {}

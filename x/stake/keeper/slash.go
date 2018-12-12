@@ -51,7 +51,7 @@ func (k Keeper) Slash(ctx sdk.Context, consAddr sdk.ConsAddress, infractionHeigh
 	}
 
 	operatorAddress := validator.GetOperator()
-	k.PostValidatorModified(ctx, operatorAddress)
+	k.PreValidatorModified(ctx, operatorAddress)
 
 	// Track remaining slash amount for the validator
 	// This will decrease when we slash unbondings and

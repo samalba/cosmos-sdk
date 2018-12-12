@@ -338,9 +338,9 @@ func (h StakingHooks) PostValidatorCreated(ctx sdk.Context, valAddr sdk.ValAddre
 	h.dh.PostValidatorCreated(ctx, valAddr)
 	h.sh.PostValidatorCreated(ctx, valAddr)
 }
-func (h StakingHooks) PostValidatorModified(ctx sdk.Context, valAddr sdk.ValAddress) {
-	h.dh.PostValidatorModified(ctx, valAddr)
-	h.sh.PostValidatorModified(ctx, valAddr)
+func (h StakingHooks) PreValidatorModified(ctx sdk.Context, valAddr sdk.ValAddress) {
+	h.dh.PreValidatorModified(ctx, valAddr)
+	h.sh.PreValidatorModified(ctx, valAddr)
 }
 func (h StakingHooks) PostValidatorRemoved(ctx sdk.Context, consAddr sdk.ConsAddress, valAddr sdk.ValAddress) {
 	h.dh.PostValidatorRemoved(ctx, consAddr, valAddr)
@@ -358,15 +358,15 @@ func (h StakingHooks) PostValidatorBeginUnbonding(ctx sdk.Context, consAddr sdk.
 	h.dh.PostValidatorBeginUnbonding(ctx, consAddr, valAddr)
 	h.sh.PostValidatorBeginUnbonding(ctx, consAddr, valAddr)
 }
-func (h StakingHooks) PostDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
-	h.dh.PostDelegationCreated(ctx, delAddr, valAddr)
-	h.sh.PostDelegationCreated(ctx, delAddr, valAddr)
+func (h StakingHooks) PreDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
+	h.dh.PreDelegationCreated(ctx, delAddr, valAddr)
+	h.sh.PreDelegationCreated(ctx, delAddr, valAddr)
 }
-func (h StakingHooks) PostDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
-	h.dh.PostDelegationSharesModified(ctx, delAddr, valAddr)
-	h.sh.PostDelegationSharesModified(ctx, delAddr, valAddr)
+func (h StakingHooks) PreDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
+	h.dh.PreDelegationSharesModified(ctx, delAddr, valAddr)
+	h.sh.PreDelegationSharesModified(ctx, delAddr, valAddr)
 }
-func (h StakingHooks) PostDelegationRemoved(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
-	h.dh.PostDelegationRemoved(ctx, delAddr, valAddr)
-	h.sh.PostDelegationRemoved(ctx, delAddr, valAddr)
+func (h StakingHooks) PreDelegationRemoved(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
+	h.dh.PreDelegationRemoved(ctx, delAddr, valAddr)
+	h.sh.PreDelegationRemoved(ctx, delAddr, valAddr)
 }
