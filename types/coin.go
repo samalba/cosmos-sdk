@@ -458,7 +458,7 @@ func ParseCoin(coinStr string) (coin Coin, err error) {
 		return Coin{}, fmt.Errorf("failed to parse coin amount: %s", amountStr)
 	}
 
-	return Coin{strings.ToUpper(denomStr), amount}, nil
+	return NewCoin(denomStr, amount), nil
 }
 
 // ParseCoins will parse out a list of coins separated by commas.
