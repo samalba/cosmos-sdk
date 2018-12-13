@@ -16,5 +16,5 @@ func TestDefaultConfig(t *testing.T) {
 func TestSetMinimumFees(t *testing.T) {
 	cfg := DefaultConfig()
 	cfg.SetMinimumFees(sdk.Coins{sdk.NewCoin("foo", sdk.NewInt(100))})
-	require.Equal(t, "100FOO", cfg.MinFees)
+	require.Equal(t, "100foo", cfg.MinFees)
 }
