@@ -30,9 +30,12 @@ func NewCoin(denom string, amount Int) Coin {
 	if amount.LT(ZeroInt()) {
 		panic(fmt.Sprintf("negative coin amount: %v\n", amount))
 	}
+	if strings.ToLower(denom) != denom {
+		panic(fmt.Sprintf("denom cannot contain upper case characters: %s\n", denom))
+	}
 
 	return Coin{
-		Denom:  strings.ToUpper(denom),
+		Denom:  denom,
 		Amount: amount,
 	}
 }
@@ -320,14 +323,14 @@ func (coins Coins) Empty() bool {
 
 // Returns the amount of a denom from coins
 func (coins Coins) AmountOf(denom string) Int {
-	uppercaseDenom := strings.ToUpper(denom)
+	lowercaseDenom := strings.ToLower(denom)
 	switch len(coins) {
 	case 0:
 		return ZeroInt()
 
 	case 1:
 		coin := coins[0]
-		if coin.Denom == uppercaseDenom {
+		if coin.Denom == lowercaseDenom {
 			return coin.Amount
 		}
 		return ZeroInt()
@@ -336,12 +339,12 @@ func (coins Coins) AmountOf(denom string) Int {
 		midIdx := len(coins) / 2 // 2:1, 3:1, 4:2
 		coin := coins[midIdx]
 
-		if uppercaseDenom < coin.Denom {
-			return coins[:midIdx].AmountOf(uppercaseDenom)
-		} else if uppercaseDenom == coin.Denom {
+		if lowercaseDenom < coin.Denom {
+			return coins[:midIdx].AmountOf(lowercaseDenom)
+		} else if lowercaseDenom == coin.Denom {
 			return coin.Amount
 		} else {
-			return coins[midIdx+1:].AmountOf(uppercaseDenom)
+			return coins[midIdx+1:].AmountOf(lowercaseDenom)
 		}
 	}
 }
@@ -456,6 +459,10 @@ func ParseCoin(coinStr string) (coin Coin, err error) {
 	amount, ok := NewIntFromString(amountStr)
 	if !ok {
 		return Coin{}, fmt.Errorf("failed to parse coin amount: %s", amountStr)
+	}
+
+	if denomStr != strings.ToLower(denomStr) {
+		return Coin{}, fmt.Errorf("denom cannot contain upper case characters: %s", denomStr)
 	}
 
 	return NewCoin(denomStr, amount), nil
