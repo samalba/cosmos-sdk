@@ -13,6 +13,8 @@ import (
 func TestCoin(t *testing.T) {
 	require.Panics(t, func() { NewInt64Coin("a", -1) })
 	require.Panics(t, func() { NewCoin("a", NewInt(-1)) })
+	require.Panics(t, func() { NewInt64Coin("Atom", 10) })
+	require.Panics(t, func() { NewCoin("Atom", NewInt(10)) })
 	require.Equal(t, NewInt(5), NewInt64Coin("a", 5).Amount)
 	require.Equal(t, NewInt(5), NewCoin("a", NewInt(5)).Amount)
 }
