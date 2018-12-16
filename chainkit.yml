@@ -1,4 +1,5 @@
 name: gaia
+image: chainkit-gaia
 binaries:
   cli: gaiacli
   daemon: gaiad
